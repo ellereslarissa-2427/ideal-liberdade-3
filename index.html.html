@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ideal + Liberdade 3 | Saia do aluguel com o Minha Casa Minha Vida</title>
+<style>
+  :root{
+    --verde-escuro:#173404;
+    --verde-medio:#3b6d11;
+    --verde-claro:#639922;
+    --bege:#FAEEDA;
+    --bege2:#F5E6C8;
+    --terracota:#BA7517;
+    --terracota-escuro:#854F0B;
+    --tinta:#22281C;
+    --tinta-suave:#5b6354;
+    --branco:#FFFFFF;
+    --linha:rgba(23,52,4,0.14);
+    --radius:14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',Arial,Helvetica,sans-serif;
+    background:var(--bege);
+    color:var(--tinta);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+
+  .eyebrow{
+    font-family:'Fraunces','Georgia',serif;
+    font-style:italic;
+    font-size:14px;
+    letter-spacing:0.04em;
+    color:var(--terracota-escuro);
+    margin-bottom:10px;
+    display:block;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces','Georgia',serif;
+    font-weight:600;
+    color:var(--verde-escuro);
+    line-height:1.12;
+  }
+
+  /* HEADER */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(250,238,218,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--linha);
+  }
+  .header-inner{
+    max-width:1120px; margin:0 auto;
+    padding:16px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .logo{
+    font-family:'Fraunces',serif; font-weight:600; font-size:19px;
+    color:var(--verde-escuro); letter-spacing:-0.01em;
+  }
+  .logo span{color:var(--terracota);}
+  .header-cta{
+    background:#25D366; color:#fff; border:none;
+    padding:10px 18px; border-radius:30px;
+    font-size:13px; font-weight:600; cursor:pointer;
+    display:flex; align-items:center; gap:6px;
+    text-decoration:none;
+  }
+
+  /* HERO */
+  .hero{
+    max-width:1120px; margin:0 auto;
+    padding:56px 24px 40px;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size:44px; margin-bottom:18px; letter-spacing:-0.01em;
+  }
+  .hero h1 em{
+    font-style:italic; color:var(--terracota);
+  }
+  .hero p.lead{
+    font-size:17px; color:var(--tinta-suave); max-width:460px; margin-bottom:26px;
+  }
+  .hero-badges{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:30px;}
+  .hb{
+    font-size:12.5px; font-weight:600; color:var(--verde-escuro);
+    background:var(--branco); border:1px solid var(--linha);
+    padding:7px 13px; border-radius:30px;
+    display:flex; align-items:center; gap:6px;
+  }
+  .hero-cta{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--verde-escuro); color:var(--bege);
+    padding:16px 28px; border-radius:10px; border:none;
+    font-size:15.5px; font-weight:600; cursor:pointer;
+    text-decoration:none;
+  }
+  .hero-cta:hover{background:var(--verde-medio);}
+  .hero-sub{font-size:12.5px; color:var(--tinta-suave); margin-top:10px;}
+
+  .hero-photo{
+    position:relative; border-radius:18px; overflow:hidden;
+    aspect-ratio:4/5; background:var(--verde-escuro);
+  }
+  .hero-photo img{width:100%; height:100%; object-fit:cover;}
+  .renda-tag{
+    position:absolute; bottom:18px; left:18px; right:18px;
+    background:var(--branco); border-radius:12px; padding:16px 18px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .renda-tag .num{
+    font-family:'Fraunces',serif; font-size:26px; font-weight:600; color:var(--verde-escuro);
+  }
+  .renda-tag .txt{font-size:12px; color:var(--tinta-suave); line-height:1.3;}
+
+  /* DOR DO ALUGUEL */
+  .dor{
+    background:var(--verde-escuro); color:var(--bege);
+    padding:64px 24px;
+  }
+  .dor-inner{max-width:880px; margin:0 auto; text-align:center;}
+  .dor h2{color:var(--bege); font-size:32px; margin-bottom:18px;}
+  .dor p{font-size:16.5px; color:#cdd6bf; max-width:620px; margin:0 auto 8px;}
+  .dor .destaque{color:var(--bege); font-weight:600;}
+
+  /* GALERIA */
+  .galeria{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+  }
+  .galeria-item{
+    border-radius:var(--radius); overflow:hidden; position:relative;
+    aspect-ratio:1/1; background:var(--bege2);
+  }
+  .galeria-item img{width:100%; height:100%; object-fit:cover;}
+  .galeria-item .leg{
+    position:absolute; bottom:0; left:0; right:0;
+    background:linear-gradient(transparent, rgba(23,52,4,0.75));
+    color:#fff; font-size:12.5px; font-weight:600;
+    padding:18px 12px 10px;
+  }
+  .galeria-item.wide{grid-column:span 2;}
+
+  /* DIFERENCIAIS */
+  .secao{max-width:1120px; margin:0 auto; padding:72px 24px;}
+  .secao-head{max-width:560px; margin-bottom:42px;}
+  .secao-head h2{font-size:30px;}
+  .grid-dif{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:16px;
+  }
+  .dif-card{
+    background:var(--branco); border:1px solid var(--linha); border-radius:var(--radius);
+    padding:24px 20px;
+  }
+  .dif-card .ico{
+    width:38px; height:38px; border-radius:50%; background:var(--bege2);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--terracota-escuro); font-size:18px; margin-bottom:14px;
+  }
+  .dif-card h3{font-size:15px; font-family:Inter,Arial,sans-serif; font-weight:600; color:var(--verde-escuro); margin-bottom:4px;}
+  .dif-card p{font-size:13px; color:var(--tinta-suave);}
+
+  /* LAZER */
+  .lazer{background:var(--bege2);}
+  .lazer-chips{display:flex; flex-wrap:wrap; gap:10px;}
+  .chip{
+    background:var(--branco); border:1px solid var(--linha); border-radius:30px;
+    padding:9px 16px; font-size:13.5px; font-weight:500; color:var(--verde-escuro);
+    display:flex; align-items:center; gap:7px;
+  }
+
+  /* LOCALIZAÇÃO */
+  .local-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;}
+  .local-info p{color:var(--tinta-suave); font-size:15px; margin-bottom:18px;}
+  .local-addr{
+    background:var(--branco); border:1px solid var(--linha); border-radius:var(--radius);
+    padding:18px 20px; font-size:14px;
+  }
+  .local-addr strong{color:var(--verde-escuro); display:block; margin-bottom:4px;}
+  .mapa-frame{
+    border-radius:var(--radius); overflow:hidden; border:1px solid var(--linha);
+    aspect-ratio:4/3;
+  }
+  .mapa-frame iframe{width:100%; height:100%; border:0;}
+
+  /* FORM */
+  .form-section{
+    background:var(--verde-escuro);
+    padding:72px 24px;
+  }
+  .form-wrap{
+    max-width:560px; margin:0 auto;
+    background:var(--bege); border-radius:20px;
+    padding:38px 34px 30px;
+  }
+  .form-wrap .eyebrow{color:var(--terracota-escuro);}
+  .form-wrap h2{font-size:27px; margin-bottom:8px; color:var(--verde-escuro);}
+  .form-wrap > p{font-size:14.5px; color:var(--tinta-suave); margin-bottom:26px;}
+
+  .campo{margin-bottom:16px;}
+  .campo label{
+    display:block; font-size:12.5px; font-weight:600; color:var(--verde-escuro);
+    margin-bottom:6px;
+  }
+  .campo input, .campo select{
+    width:100%; padding:12px 14px; border-radius:8px;
+    border:1px solid var(--linha); background:var(--branco);
+    font-size:14.5px; font-family:inherit; color:var(--tinta);
+  }
+  .campo input:focus, .campo select:focus{
+    outline:none; border-color:var(--verde-claro);
+    box-shadow:0 0 0 3px rgba(99,153,34,0.15);
+  }
+  .campo-row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+
+  .termos{
+    display:flex; align-items:flex-start; gap:9px; margin:18px 0 22px;
+  }
+  .termos input{width:auto; margin-top:3px;}
+  .termos label{font-size:12px; color:var(--tinta-suave); font-weight:400;}
+
+  .btn-enviar{
+    width:100%; background:var(--terracota); color:#fff; border:none;
+    padding:15px; border-radius:9px; font-size:15.5px; font-weight:600;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .btn-enviar:hover{background:var(--terracota-escuro);}
+  .form-foot{font-size:11.5px; color:var(--tinta-suave); text-align:center; margin-top:14px;}
+
+  /* FOOTER */
+  footer{
+    padding:32px 24px; text-align:center;
+    border-top:1px solid var(--linha);
+  }
+  footer p{font-size:12.5px; color:var(--tinta-suave); margin-bottom:4px;}
+
+  /* WHATSAPP FLOAT */
+  .wpp-float{
+    position:fixed; bottom:22px; right:22px; z-index:60;
+    background:#25D366; width:56px; height:56px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 14px rgba(0,0,0,0.18); text-decoration:none;
+  }
+  .wpp-float svg{width:28px; height:28px; fill:#fff;}
+
+  @media (max-width:880px){
+    .hero{grid-template-columns:1fr; padding-top:32px;}
+    .hero h1{font-size:32px;}
+    .hero-photo{order:-1; aspect-ratio:16/10;}
+    .grid-dif{grid-template-columns:1fr 1fr;}
+    .local-grid{grid-template-columns:1fr;}
+    .form-wrap{padding:30px 22px 24px;}
+    .secao{padding:52px 20px;}
+  }
+  @media (max-width:480px){
+    .grid-dif{grid-template-columns:1fr 1fr;}
+    .campo-row{grid-template-columns:1fr;}
+    .hero h1{font-size:28px;}
+    .dor h2{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">Morar<span>+</span></div>
+    <a class="header-cta" href="#simular">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.2-.6.9-.8 1-.1.2-.3.2-.5.1-1.8-.9-3-1.6-4.2-3.6-.1-.2 0-.4.1-.5.2-.2.5-.5.6-.7.1-.2.1-.4 0-.5-.1-.2-.6-1.5-.9-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.2 0 1.3.9 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4 2.7 1.1 2.7.7 3.2.7.5 0 1.6-.6 1.8-1.3.2-.6.2-1.2.1-1.3-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.3 4.9 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 14.9 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
+      Falar agora
+    </a>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <span class="eyebrow">Lançamento em Ananindeua / PA</span>
+    <h1>Pare de pagar aluguel.<br>Comece a pagar o <em>seu</em> apartamento.</h1>
+    <p class="lead">O Ideal + Liberdade 3 entrou no programa Minha Casa Minha Vida. Se você tem renda a partir de R$ 1.800, já pode dar o primeiro passo para sair do aluguel de verdade.</p>
+    <div class="hero-badges">
+      <span class="hb">🏠 2 dormitórios</span>
+      <span class="hb">🔒 Condomínio fechado</span>
+      <span class="hb">✅ Minha Casa Minha Vida</span>
+    </div>
+    <a class="hero-cta" href="#simular">Quero sair do aluguel →</a>
+    <p class="hero-sub">Simulação gratuita · Sem compromisso · Resposta em poucos minutos</p>
+  </div>
+  <div class="hero-photo">
+    <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_TORRE-DIURNA_FINAL-.jpg" alt="Fachada do Ideal + Liberdade 3">
+    <div class="renda-tag">
+      <div class="num">R$ 1,8mil</div>
+      <div class="txt">é a renda mínima para começar a financiar pelo Minha Casa Minha Vida</div>
+    </div>
+  </div>
+</section>
+
+<section class="dor">
+  <div class="dor-inner">
+    <h2>Quanto você já pagou de aluguel até hoje?</h2>
+    <p>Esse dinheiro não volta. Ele não vira patrimônio, não vira herança, não vira <span class="destaque">a sua casa</span>.</p>
+    <p>O Minha Casa Minha Vida existe exatamente para isso: pegar quem está pagando aluguel e transformar essa parcela em algo que é seu, de verdade.</p>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="secao-head">
+    <span class="eyebrow">Por que o Ideal + Liberdade 3</span>
+    <h2>Tudo o que sua família precisa, dentro de um condomínio fechado</h2>
+  </div>
+  <div class="galeria">
+    <div class="galeria-item wide">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-GUARITA_FINAL-.jpg" alt="Guarita de segurança">
+      <div class="leg">🔐 Guarita de segurança</div>
+    </div>
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-BICICLETARIO_FINAL-.jpg" alt="Bicicletário">
+      <div class="leg">🚲 Bicicletário</div>
+    </div>
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_IDEAL-JASMIM_CHURRASQUEIRA_FINAL_2025-02-28-.jpg" alt="Churrasqueira">
+      <div class="leg">🍖 Churrasqueira</div>
+    </div>
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-PISCINA_FINAL-.jpg" alt="Piscina">
+      <div class="leg">🏊 Piscina</div>
+    </div>
+    <div class="galeria-item wide">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-PLAYGROUND_FINAL-.jpg" alt="Playground">
+      <div class="leg">🛝 Playground</div>
+    </div>
+  </div>
+</section>
+
+<section class="secao lazer">
+  <div class="secao-head">
+    <span class="eyebrow">Lazer e bem-estar</span>
+    <h2>Conforto para todas as idades da casa</h2>
+  </div>
+  <div class="galeria">
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-FITNESS-EXTERNO_FINAL-.jpg" alt="Fitness ao ar livre">
+      <div class="leg">🏋️ Fitness ao ar livre</div>
+    </div>
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-PETPLACE_FINAL-.jpg" alt="Pet place">
+      <div class="leg">🐾 Pet place</div>
+    </div>
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-PRACA_FINAL-.jpg" alt="Praça">
+      <div class="leg">🌳 Praça</div>
+    </div>
+    <div class="galeria-item wide">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-POMAR_FINAL-.jpg" alt="Pomar">
+      <div class="leg">🌱 Pomar</div>
+    </div>
+    <div class="galeria-item wide">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_TORRE-NOTURNA_FINAL-.jpg" alt="Torre à noite">
+      <div class="leg">✨ Vista noturna</div>
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="secao-head">
+    <span class="eyebrow">Onde fica</span>
+    <h2>Águas Brancas, Ananindeua — perto de tudo o que você precisa</h2>
+  </div>
+  <div class="local-grid">
+    <div class="local-info">
+      <p>O Ideal + Liberdade 3 está localizado próximo às principais vias de acesso de Ananindeua, facilitando o dia a dia da sua família.</p>
+      <div class="local-addr">
+        <strong>Ideal + Liberdade 3</strong>
+        Estrada do Aura, Lote B1, S/N — Águas Brancas, Ananindeua/PA
+      </div>
+      <a href="https://www.google.com/maps?q=Estrada+do+Aura,+Lote+B1,+%C3%81guas+Brancas,+Ananindeua,+PA" target="_blank" style="display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-size:13px; font-weight:600; color:var(--terracota-escuro); text-decoration:none;">
+        📍 Abrir no Google Maps →
+      </a>
+    </div>
+    <div class="mapa-frame">
+      <iframe src="https://www.google.com/maps?q=Estrada+do+Aura,+Lote+B1,+%C3%81guas+Brancas,+Ananindeua,+PA&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="form-section" id="simular">
+  <div class="form-wrap">
+    <span class="eyebrow">Avaliação de perfil</span>
+    <h2>Veja se você já pode sair do aluguel</h2>
+    <p>Preencha os dados abaixo. Guido entra em contato pelo WhatsApp para confirmar sua simulação do Minha Casa Minha Vida.</p>
+
+    <form id="formLead" action="https://formspree.io/f/xdavdjbz" method="POST">
+      <div class="campo">
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" name="Nome" placeholder="Seu nome completo" required>
+      </div>
+
+      <div class="campo-row">
+        <div class="campo">
+          <label for="telefone">WhatsApp</label>
+          <input type="tel" id="telefone" name="WhatsApp" placeholder="(91) 9____-____" required>
+        </div>
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="E-mail" placeholder="seu@email.com" required>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="renda">Qual é a sua renda mensal aproximada?</label>
+        <select id="renda" name="Faixa de renda" required>
+          <option value="" disabled selected>Selecione uma opção</option>
+          <option value="Até R$ 1.800">Até R$ 1.800</option>
+          <option value="R$ 1.800 a R$ 4.400">R$ 1.800 a R$ 4.400</option>
+          <option value="R$ 4.400 a R$ 8.000">R$ 4.400 a R$ 8.000</option>
+          <option value="Acima de R$ 8.000">Acima de R$ 8.000</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="vinculo">Qual é o seu vínculo de trabalho atual?</label>
+        <select id="vinculo" name="Vínculo de trabalho" required>
+          <option value="" disabled selected>Selecione uma opção</option>
+          <option value="CLT (carteira assinada)">CLT (carteira assinada)</option>
+          <option value="Servidor público">Servidor público</option>
+          <option value="MEI">MEI</option>
+          <option value="Autônomo com comprovante">Autônomo com comprovante</option>
+          <option value="Sem renda formal">Sem renda formal</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="objetivo">O que você está buscando?</label>
+        <select id="objetivo" name="Objetivo" required>
+          <option value="" disabled selected>Selecione uma opção</option>
+          <option value="Sair do aluguel">Sair do aluguel</option>
+          <option value="Comprar meu primeiro imóvel">Comprar meu primeiro imóvel</option>
+          <option value="Investir em imóvel">Investir em imóvel</option>
+          <option value="Alugar um imóvel">Alugar um imóvel</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="prazo">Quando você pretende comprar?</label>
+        <select id="prazo" name="Prazo" required>
+          <option value="" disabled selected>Selecione uma opção</option>
+          <option value="Assim que possível">Assim que possível</option>
+          <option value="Nos próximos 3 meses">Nos próximos 3 meses</option>
+          <option value="Em 6 meses">Em 6 meses</option>
+          <option value="Ainda estou pesquisando">Ainda estou pesquisando</option>
+        </select>
+      </div>
+
+      <input type="hidden" name="Empreendimento" value="Ideal + Liberdade 3 - Ananindeua/PA">
+
+      <div class="termos">
+        <input type="checkbox" id="termos" required>
+        <label for="termos">Declaro que aceito receber contato da Morar Mais sobre este empreendimento e concordo com a Política de Privacidade.</label>
+      </div>
+
+      <button class="btn-enviar" type="submit">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.2-.6.9-.8 1-.1.2-.3.2-.5.1-1.8-.9-3-1.6-4.2-3.6-.1-.2 0-.4.1-.5.2-.2.5-.5.6-.7.1-.2.1-.4 0-.5-.1-.2-.6-1.5-.9-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.2 0 1.3.9 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4 2.7 1.1 2.7.7 3.2.7.5 0 1.6-.6 1.8-1.3.2-.6.2-1.2.1-1.3-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.3 4.9 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 14.9 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
+        Quero minha simulação
+      </button>
+      <p class="form-foot">Ao enviar, você será direcionado automaticamente para o WhatsApp de Guido Sérgio (CRECI 7260).</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>Morar Mais Empreendimentos Imobiliários Ltda · CNPJ 22.032.294/0001-76</p>
+  <p>Corretor responsável: Guido Sérgio — CRECI 7260</p>
+  <p>As informações aqui apresentadas têm caráter informativo e podem sofrer alterações após análise detalhada.</p>
+</footer>
+
+<a class="wpp-float" href="https://wa.me/5591981558577?text=Ol%C3%A1%2C+Guido%21+Vi+a+p%C3%A1gina+do+Ideal+%2B+Liberdade+3+e+quero+saber+mais." target="_blank" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.2-.6.9-.8 1-.1.2-.3.2-.5.1-1.8-.9-3-1.6-4.2-3.6-.1-.2 0-.4.1-.5.2-.2.5-.5.6-.7.1-.2.1-.4 0-.5-.1-.2-.6-1.5-.9-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.2 0 1.3.9 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4 2.7 1.1 2.7.7 3.2.7.5 0 1.6-.6 1.8-1.3.2-.6.2-1.2.1-1.3-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.3 4.9 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 14.9 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
+</a>
+
+<script>
+document.getElementById('formLead').addEventListener('submit', function(e){
+  e.preventDefault();
+  const form = e.target;
+  const dados = new FormData(form);
+
+  fetch(form.action, {
+    method: 'POST',
+    body: dados,
+    headers: { 'Accept': 'application/json' }
+  }).then(() => {
+    const nome = dados.get('Nome') || '';
+    const renda = dados.get('Faixa de renda') || '';
+    const objetivo = dados.get('Objetivo') || '';
+    const prazo = dados.get('Prazo') || '';
+
+    const msg = `Olá, Guido! Me chamo ${nome}. Vi a página do Ideal + Liberdade 3 e quero saber mais sobre o Minha Casa Minha Vida.\nRenda: ${renda}\nObjetivo: ${objetivo}\nPrazo: ${prazo}`;
+
+    const link = `https://wa.me/5591981558577?text=${encodeURIComponent(msg)}`;
+    window.location.href = link;
+  }).catch(() => {
+    alert('Não foi possível enviar seus dados agora. Por favor, tente novamente ou fale direto pelo botão do WhatsApp.');
+  });
+});
+</script>
+
+</body>
+</html>
