@@ -1,6 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{
+if(f.fbq)return;
+n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;
+n.push=n;
+n.loaded=!0;
+n.version='2.0';
+n.queue=[];
+t=b.createElement(e);
+t.async=!0;
+t.src=v;
+s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)
+}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '135391155007456');
+fbq('track', 'PageView');
+</script>
+
+<noscript>
+<img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=135391155007456&ev=PageView&noscript=1"/>
+</noscript>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ideal + Liberdade 3 | Saia do aluguel com o Minha Casa Minha Vida</title>
@@ -284,7 +312,7 @@
     <h1>Pare de pagar aluguel.<br>Comece a pagar o <em>seu</em> apartamento.</h1>
     <p class="lead">O Ideal + Liberdade 3 entrou no programa Minha Casa Minha Vida. Se você tem renda a partir de R$ 1.800, já pode dar o primeiro passo para sair do aluguel de verdade.</p>
     <div class="hero-badges">
-      <span class="hb">🏠 2 dormitórios</span>
+      <span class="hb">🏠 2 Dormitórios</span>
       <span class="hb">🔒 Condomínio fechado</span>
       <span class="hb">✅ Minha Casa Minha Vida</span>
     </div>
@@ -294,7 +322,7 @@
   <div class="hero-photo">
     <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_TORRE-DIURNA_FINAL-.jpg" alt="Fachada do Ideal + Liberdade 3">
     <div class="renda-tag">
-      <div class="num">R$ 1,8mil</div>
+      <div class="num">R$ 1.800,00</div>
       <div class="txt">é a renda mínima para começar a financiar pelo Minha Casa Minha Vida</div>
     </div>
   </div>
@@ -460,7 +488,7 @@
 
       <div class="termos">
         <input type="checkbox" id="termos" required>
-        <label for="termos">Declaro que aceito receber contato da Morar Mais sobre este empreendimento e concordo com a Política de Privacidade.</label>
+        <label for="termos">Declaro que aceito receber contato do corretor responsável sobre este empreendimento e concordo com a Política de Privacidade.</label>
       </div>
 
       <button class="btn-enviar" type="submit">
@@ -478,35 +506,21 @@
   <p>As informações aqui apresentadas têm caráter informativo e podem sofrer alterações após análise detalhada.</p>
 </footer>
 
-<a class="wpp-float" href="https://wa.me/5591981558577?text=Ol%C3%A1%2C+Guido%21+Vi+a+p%C3%A1gina+do+Ideal+%2B+Liberdade+3+e+quero+saber+mais." target="_blank" aria-label="Falar no WhatsApp">
+<a class="wpp-float" onclick="trackWhatsApp()" href="https://wa.me/5591981558577?text=Ol%C3%A1%2C+Guido%21+Vi+a+p%C3%A1gina+do+Ideal+%2B+Liberdade+3+e+quero+saber+mais." target="_blank" aria-label="Falar no WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.2-.6.9-.8 1-.1.2-.3.2-.5.1-1.8-.9-3-1.6-4.2-3.6-.1-.2 0-.4.1-.5.2-.2.5-.5.6-.7.1-.2.1-.4 0-.5-.1-.2-.6-1.5-.9-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.2 0 1.3.9 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4 2.7 1.1 2.7.7 3.2.7.5 0 1.6-.6 1.8-1.3.2-.6.2-1.2.1-1.3-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.3 4.9 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 14.9 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
 </a>
 
 <script>
+// Função para rastrear clique no WhatsApp com Meta Pixel
+function trackWhatsApp() {
+  fbq('track', 'Contact');
+  fbq('track', 'Lead');
+}
+
 document.getElementById('formLead').addEventListener('submit', function(e){
   e.preventDefault();
   const form = e.target;
   const dados = new FormData(form);
 
   fetch(form.action, {
-    method: 'POST',
-    body: dados,
-    headers: { 'Accept': 'application/json' }
-  }).then(() => {
-    const nome = dados.get('Nome') || '';
-    const renda = dados.get('Faixa de renda') || '';
-    const objetivo = dados.get('Objetivo') || '';
-    const prazo = dados.get('Prazo') || '';
-
-    const msg = `Olá, Guido! Me chamo ${nome}. Vi a página do Ideal + Liberdade 3 e quero saber mais sobre o Minha Casa Minha Vida.\nRenda: ${renda}\nObjetivo: ${objetivo}\nPrazo: ${prazo}`;
-
-    const link = `https://wa.me/5591981558577?text=${encodeURIComponent(msg)}`;
-    window.location.href = link;
-  }).catch(() => {
-    alert('Não foi possível enviar seus dados agora. Por favor, tente novamente ou fale direto pelo botão do WhatsApp.');
-  });
-});
-</script>
-
-</body>
-</html>
+   
