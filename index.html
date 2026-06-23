@@ -517,36 +517,4 @@ src="https://www.facebook.com/tr?id=135391155007456&ev=PageView&noscript=1"/>
 
 <script>
 // Função para rastrear clique no WhatsApp com Meta Pixel
-function trackWhatsApp() {
-  fbq('track', 'Contact');
-  fbq('track', 'Lead');
-}
-
-document.getElementById('formLead').addEventListener('submit', function(e){
-  e.preventDefault();
-  const form = e.target;
-  const dados = new FormData(form);
-
-  fetch(form.action, {
-    method: 'POST',
-    body: dados,
-    headers: { 'Accept': 'application/json' }
-  }).then(() => {
-    const nome = dados.get('Nome') || '';
-    const cpf = dados.get('CPF') || '';
-    const renda = dados.get('Faixa de renda') || '';
-    const objetivo = dados.get('Objetivo') || '';
-    const prazo = dados.get('Prazo') || '';
-
-    const msg = `Olá, Guido! Me chamo ${nome}. Vi a página do Ideal + Liberdade 3 e quero saber mais sobre o Minha Casa Minha Vida.\nCPF: ${cpf}\nRenda: ${renda}\nObjetivo: ${objetivo}\nPrazo: ${prazo}`;
-
-    const link = `https://wa.me/5591981558577?text=${encodeURIComponent(msg)}`;
-    window.location.href = link;
-  }).catch(() => {
-    alert('Não foi possível enviar seus dados agora. Por favor, tente novamente ou fale direto pelo botão do WhatsApp.');
-  });
-});
-</script>
-
-</body>
-</html>
+function trackWhatsApp
