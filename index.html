@@ -1,294 +1,627 @@
-<script>
-  (function() {
-    'use strict';
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {
+      if(f.fbq)return;
+      n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;
+      n.push=n;
+      n.loaded=!0;
+      n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);
+      t.async=!0;
+      t.src=v;
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
 
-    // ============================================
-    // RECUPERA DADOS UTM
-    // ============================================
-    let utmData = {};
-    try {
-      const stored = localStorage.getItem('utm_data');
-      utmData = stored ? JSON.parse(stored) : {};
-    } catch(e) {
-      utmData = {};
+    fbq('init', '135391155007456');
+    fbq('track', 'PageView');
+  </script>
+
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=135391155007456&ev=PageView&noscript=1"/>
+  </noscript>
+
+  <!-- ============================================ -->
+  <!-- CAPTURA DE PARÂMETROS UTM (CORRIGIDO) -->
+  <!-- ============================================ -->
+  <script>
+    // Função para capturar parâmetros da URL
+    function pegarUTM(nome) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(nome) || 'organico';
     }
 
-    // ============================================
-    // PREENCHE CAMPOS OCULTOS
-    // ============================================
-    const utmFields = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-    utmFields.forEach(function(field) {
-      const el = document.getElementById(field);
-      if (el) el.value = utmData[field] || 'organico';
-    });
-
-    // ============================================
-    // FUNÇÃO PARA RASTREAR CLIQUE NO WHATSAPP
-    // ============================================
-    window.trackWhatsApp = function() {
-      if (typeof fbq !== 'undefined') {
-        fbq('track', 'Contact', {
-          content_name: 'WhatsApp Float - Ideal + Liberdade 3',
-          content_category: 'Contato Direto',
-          ...utmData
-        });
-      }
+    // Armazena todos os parâmetros UTM
+    const utmData = {
+      utm_source: pegarUTM('utm_source'),
+      utm_medium: pegarUTM('utm_medium'),
+      utm_campaign: pegarUTM('utm_campaign'),
+      utm_content: pegarUTM('utm_content'),
+      utm_term: pegarUTM('utm_term')
     };
 
-    // ============================================
-    // MÁSCARA PARA CPF
-    // ============================================
-    const cpfInput = document.getElementById('cpf');
-    if (cpfInput) {
-      cpfInput.addEventListener('input', function(e) {
-        let value = this.value.replace(/\D/g, '');
-        if (value.length > 11) value = value.slice(0, 11);
-        
-        if (value.length <= 3) {
-          this.value = value;
-        } else if (value.length <= 6) {
-          this.value = value.slice(0,3) + '.' + value.slice(3);
-        } else if (value.length <= 9) {
-          this.value = value.slice(0,3) + '.' + value.slice(3,6) + '.' + value.slice(6);
-        } else {
-          this.value = value.slice(0,3) + '.' + value.slice(3,6) + '.' + value.slice(6,9) + '-' + value.slice(9);
-        }
-      });
+    // Salva no localStorage para usar depois
+    localStorage.setItem('utm_data', JSON.stringify(utmData));
+
+    // Dispara evento ViewContent com dados UTM
+    fbq('track', 'ViewContent', {
+      content_name: 'Ideal + Liberdade 3',
+      content_category: 'Lançamento Imobiliário',
+      content_type: 'product',
+      ...utmData
+    });
+
+    console.log('✅ UTM Data capturado:', utmData);
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ideal + Liberdade 3 | Saia do aluguel com o Minha Casa Minha Vida</title>
+  
+  <style>
+    :root{
+      --verde-escuro:#173404;
+      --verde-medio:#3b6d11;
+      --verde-claro:#639922;
+      --bege:#FAEEDA;
+      --bege2:#F5E6C8;
+      --terracota:#BA7517;
+      --terracota-escuro:#854F0B;
+      --tinta:#22281C;
+      --tinta-suave:#5b6354;
+      --branco:#FFFFFF;
+      --linha:rgba(23,52,4,0.14);
+      --radius:14px;
+      --galeria-gap:14px;
+    }
+    *{box-sizing:border-box; margin:0; padding:0;}
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:'Inter',Arial,Helvetica,sans-serif;
+      background:var(--bege);
+      color:var(--tinta);
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+    }
+    img{max-width:100%; display:block;}
+    a{color:inherit; text-decoration:none;}
+
+    .eyebrow{
+      font-family:'Fraunces','Georgia',serif;
+      font-style:italic;
+      font-size:14px;
+      letter-spacing:0.04em;
+      color:var(--terracota-escuro);
+      margin-bottom:10px;
+      display:block;
+    }
+    h1,h2,h3{
+      font-family:'Fraunces','Georgia',serif;
+      font-weight:600;
+      color:var(--verde-escuro);
+      line-height:1.12;
     }
 
-    // ============================================
-    // MÁSCARA PARA TELEFONE
-    // ============================================
-    const telefoneInput = document.getElementById('telefone');
-    if (telefoneInput) {
-      telefoneInput.addEventListener('input', function(e) {
-        let value = this.value.replace(/\D/g, '');
-        if (value.length > 11) value = value.slice(0, 11);
-        
-        if (value.length <= 2) {
-          this.value = '(' + value;
-        } else if (value.length <= 6) {
-          this.value = '(' + value.slice(0,2) + ') ' + value.slice(2);
-        } else if (value.length <= 10) {
-          this.value = '(' + value.slice(0,2) + ') ' + value.slice(2,6) + '-' + value.slice(6);
-        } else {
-          this.value = '(' + value.slice(0,2) + ') ' + value.slice(2,7) + '-' + value.slice(7);
-        }
-      });
+    /* HEADER */
+    header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(250,238,218,0.92);
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+      border-bottom:1px solid var(--linha);
+    }
+    .header-inner{
+      max-width:1120px; margin:0 auto;
+      padding:16px 24px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .logo{
+      font-family:'Fraunces',serif; font-weight:600; font-size:19px;
+      color:var(--verde-escuro); letter-spacing:-0.01em;
+    }
+    .logo span{color:var(--terracota);}
+    .header-cta{
+      background:#25D366; color:#fff; border:none;
+      padding:10px 18px; border-radius:30px;
+      font-size:13px; font-weight:600; cursor:pointer;
+      display:flex; align-items:center; gap:6px;
+      text-decoration:none;
+      transition: opacity 0.2s;
+    }
+    .header-cta:hover{opacity:0.85;}
+
+    /* HERO */
+    .hero{
+      max-width:1120px; margin:0 auto;
+      padding:56px 24px 40px;
+      display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px;
+      align-items:center;
+    }
+    .hero h1{
+      font-size:44px; margin-bottom:18px; letter-spacing:-0.01em;
+    }
+    .hero h1 em{
+      font-style:italic; color:var(--terracota);
+    }
+    .hero p.lead{
+      font-size:17px; color:var(--tinta-suave); max-width:460px; margin-bottom:26px;
+    }
+    .hero-badges{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:30px;}
+    .hb{
+      font-size:12.5px; font-weight:600; color:var(--verde-escuro);
+      background:var(--branco); border:1px solid var(--linha);
+      padding:7px 13px; border-radius:30px;
+      display:flex; align-items:center; gap:6px;
+    }
+    .hero-cta{
+      display:inline-flex; align-items:center; gap:10px;
+      background:var(--verde-escuro); color:var(--bege);
+      padding:16px 28px; border-radius:10px; border:none;
+      font-size:15.5px; font-weight:600; cursor:pointer;
+      text-decoration:none;
+      transition: background 0.2s;
+    }
+    .hero-cta:hover{background:var(--verde-medio);}
+    .hero-sub{font-size:12.5px; color:var(--tinta-suave); margin-top:10px;}
+
+    .hero-photo{
+      position:relative; border-radius:18px; overflow:hidden;
+      aspect-ratio:4/5; background:var(--verde-escuro);
+    }
+    .hero-photo img{
+      width:100%; height:100%; object-fit:cover;
+    }
+    .renda-tag{
+      position:absolute; bottom:18px; left:18px; right:18px;
+      background:var(--branco); border-radius:12px; padding:16px 18px;
+      display:flex; align-items:center; gap:14px;
+    }
+    .renda-tag .num{
+      font-family:'Fraunces',serif; font-size:26px; font-weight:600; color:var(--verde-escuro);
+    }
+    .renda-tag .txt{font-size:12px; color:var(--tinta-suave); line-height:1.3;}
+
+    /* DOR DO ALUGUEL */
+    .dor{
+      background:var(--verde-escuro); color:var(--bege);
+      padding:64px 24px;
+    }
+    .dor-inner{max-width:880px; margin:0 auto; text-align:center;}
+    .dor h2{color:var(--bege); font-size:32px; margin-bottom:18px;}
+    .dor p{font-size:16.5px; color:#cdd6bf; max-width:620px; margin:0 auto 8px;}
+    .dor .destaque{color:var(--bege); font-weight:600;}
+
+    /* GALERIA - IMAGENS UNIFORMES */
+    .galeria{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:var(--galeria-gap);
+    }
+    .galeria-item{
+      border-radius:var(--radius);
+      overflow:hidden;
+      position:relative;
+      aspect-ratio:1/1;
+      background:var(--bege2);
+      cursor:pointer;
+    }
+    .galeria-item img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      display:block;
+    }
+    .galeria-item:hover img{
+      transform:scale(1.05);
+    }
+    .galeria-item .leg{
+      position:absolute;
+      bottom:0;
+      left:0;
+      right:0;
+      background:linear-gradient(transparent, rgba(23,52,4,0.8));
+      color:#fff;
+      font-size:13px;
+      font-weight:600;
+      padding:20px 14px 12px;
+      letter-spacing:0.02em;
+      text-shadow:0 1px 3px rgba(0,0,0,0.2);
+    }
+    .galeria-item.wide{
+      grid-column:span 2;
+      aspect-ratio:2/1;
     }
 
-    // ============================================
-    // FUNÇÃO DE QUALIFICAÇÃO DE LEAD
-    // ============================================
-    function qualificarLead(dados) {
-      let pontuacao = 0;
-      const motivos = [];
+    /* DIFERENCIAIS */
+    .secao{max-width:1120px; margin:0 auto; padding:72px 24px;}
+    .secao-head{max-width:560px; margin-bottom:42px;}
+    .secao-head h2{font-size:30px;}
+    .grid-dif{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:16px;
+    }
+    .dif-card{
+      background:var(--branco); border:1px solid var(--linha); border-radius:var(--radius);
+      padding:24px 20px;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .dif-card:hover{
+      box-shadow:0 4px 20px rgba(0,0,0,0.08);
+      transform:translateY(-2px);
+    }
+    .dif-card .ico{
+      width:38px; height:38px; border-radius:50%; background:var(--bege2);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--terracota-escuro); font-size:18px; margin-bottom:14px;
+    }
+    .dif-card h3{font-size:15px; font-family:Inter,Arial,sans-serif; font-weight:600; color:var(--verde-escuro); margin-bottom:4px;}
+    .dif-card p{font-size:13px; color:var(--tinta-suave);}
 
-      const renda = dados.get('Faixa de renda');
-      if (renda === 'Até R$ 1.800' || renda === 'R$ 1.800 a R$ 4.400') {
-        pontuacao += 30;
-        motivos.push('Renda compatível com MCMV');
-      } else if (renda === 'R$ 4.400 a R$ 8.000') {
-        pontuacao += 20;
-        motivos.push('Renda acima do MCMV');
-      } else {
-        pontuacao += 10;
-        motivos.push('Renda alta - Perfil investidor');
-      }
-
-      const vinculo = dados.get('Vínculo de trabalho');
-      if (['CLT (carteira assinada)', 'Servidor público'].includes(vinculo)) {
-        pontuacao += 25;
-        motivos.push('Vínculo formal');
-      } else if (vinculo === 'MEI' || vinculo === 'Autônomo com comprovante') {
-        pontuacao += 15;
-        motivos.push('Autônomo/MEI');
-      } else {
-        pontuacao += 5;
-        motivos.push('Sem renda formal');
-      }
-
-      const objetivo = dados.get('Objetivo');
-      if (['Sair do aluguel', 'Comprar meu primeiro imóvel'].includes(objetivo)) {
-        pontuacao += 25;
-        motivos.push('Compra imediata');
-      } else if (objetivo === 'Investir em imóvel') {
-        pontuacao += 20;
-        motivos.push('Perfil investidor');
-      } else {
-        pontuacao += 5;
-        motivos.push('Objetivo indefinido');
-      }
-
-      const prazo = dados.get('Prazo');
-      if (prazo === 'Assim que possível' || prazo === 'Nos próximos 3 meses') {
-        pontuacao += 20;
-        motivos.push('Curto prazo');
-      } else if (prazo === 'Em 6 meses') {
-        pontuacao += 10;
-        motivos.push('Médio prazo');
-      } else {
-        pontuacao += 5;
-        motivos.push('Longo prazo');
-      }
-
-      let classificacao = 'Baixa';
-      if (pontuacao >= 80) classificacao = 'Muito Alta';
-      else if (pontuacao >= 60) classificacao = 'Alta';
-      else if (pontuacao >= 40) classificacao = 'Média';
-      else classificacao = 'Baixa';
-
-      return {
-        pontuacao: pontuacao,
-        classificacao: classificacao,
-        motivos: motivos.join(' | '),
-        renda: renda,
-        vinculo: vinculo,
-        objetivo: objetivo,
-        prazo: prazo
-      };
+    /* LAZER */
+    .lazer{background:var(--bege2);}
+    .lazer-chips{display:flex; flex-wrap:wrap; gap:10px;}
+    .chip{
+      background:var(--branco); border:1px solid var(--linha); border-radius:30px;
+      padding:9px 16px; font-size:13.5px; font-weight:500; color:var(--verde-escuro);
+      display:flex; align-items:center; gap:7px;
     }
 
-    // ============================================
-    // VALIDAÇÃO DO FORMULÁRIO
-    // ============================================
-    function validarFormulario(form) {
-      let valido = true;
-      const campos = form.querySelectorAll('[required]');
+    /* LOCALIZAÇÃO */
+    .local-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;}
+    .local-info p{color:var(--tinta-suave); font-size:15px; margin-bottom:18px;}
+    .local-addr{
+      background:var(--branco); border:1px solid var(--linha); border-radius:var(--radius);
+      padding:18px 20px; font-size:14px;
+    }
+    .local-addr strong{color:var(--verde-escuro); display:block; margin-bottom:4px;}
+    .mapa-frame{
+      border-radius:var(--radius); overflow:hidden; border:1px solid var(--linha);
+      aspect-ratio:4/3;
+    }
+    .mapa-frame iframe{width:100%; height:100%; border:0;}
+
+    /* FORM */
+    .form-section{
+      background:var(--verde-escuro);
+      padding:72px 24px;
+    }
+    .form-wrap{
+      max-width:560px; margin:0 auto;
+      background:var(--bege); border-radius:20px;
+      padding:38px 34px 30px;
+    }
+    .form-wrap .eyebrow{color:var(--terracota-escuro);}
+    .form-wrap h2{font-size:27px; margin-bottom:8px; color:var(--verde-escuro);}
+    .form-wrap > p{font-size:14.5px; color:var(--tinta-suave); margin-bottom:26px;}
+
+    .campo{margin-bottom:16px;}
+    .campo label{
+      display:block; font-size:12.5px; font-weight:600; color:var(--verde-escuro);
+      margin-bottom:6px;
+    }
+    .campo input, .campo select{
+      width:100%; padding:12px 14px; border-radius:8px;
+      border:1px solid var(--linha); background:var(--branco);
+      font-size:14.5px; font-family:inherit; color:var(--tinta);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .campo input:focus, .campo select:focus{
+      outline:none; border-color:var(--verde-claro);
+      box-shadow:0 0 0 3px rgba(99,153,34,0.15);
+    }
+    .campo input.error, .campo select.error{
+      border-color:#dc3545;
+      box-shadow:0 0 0 3px rgba(220,53,69,0.15);
+    }
+    .campo-row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+
+    .termos{
+      display:flex; align-items:flex-start; gap:9px; margin:18px 0 22px;
+    }
+    .termos input{width:auto; margin-top:3px; cursor:pointer;}
+    .termos label{font-size:12px; color:var(--tinta-suave); font-weight:400; cursor:pointer;}
+
+    .btn-enviar{
+      width:100%; background:var(--terracota); color:#fff; border:none;
+      padding:15px; border-radius:9px; font-size:15.5px; font-weight:600;
+      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-enviar:hover{background:var(--terracota-escuro);}
+    .btn-enviar:active{transform:scale(0.98);}
+    .btn-enviar:disabled{
+      opacity:0.7; cursor:not-allowed; transform:none;
+    }
+    .form-foot{font-size:11.5px; color:var(--tinta-suave); text-align:center; margin-top:14px;}
+
+    /* FOOTER */
+    footer{
+      padding:32px 24px; text-align:center;
+      border-top:1px solid var(--linha);
+    }
+    footer p{font-size:12.5px; color:var(--tinta-suave); margin-bottom:4px;}
+
+    /* WHATSAPP FLOAT */
+    .wpp-float{
+      position:fixed; bottom:22px; right:22px; z-index:60;
+      background:#25D366; width:56px; height:56px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 14px rgba(0,0,0,0.18); text-decoration:none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .wpp-float:hover{
+      transform:scale(1.08);
+      box-shadow:0 6px 20px rgba(37,211,102,0.35);
+    }
+    .wpp-float svg{width:28px; height:28px; fill:#fff;}
+
+    /* RESPONSIVIDADE */
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr; padding-top:32px;}
+      .hero h1{font-size:32px;}
+      .hero-photo{order:-1; aspect-ratio:16/10;}
+      .grid-dif{grid-template-columns:1fr 1fr;}
+      .local-grid{grid-template-columns:1fr;}
+      .form-wrap{padding:30px 22px 24px;}
+      .secao{padding:52px 20px;}
       
-      campos.forEach(function(campo) {
-        const errorClass = 'error';
-        if (!campo.value || campo.value.trim() === '') {
-          campo.classList.add(errorClass);
-          valido = false;
-        } else {
-          campo.classList.remove(errorClass);
-        }
-        
-        if (campo.type === 'checkbox' && !campo.checked) {
-          campo.classList.add(errorClass);
-          valido = false;
-        } else if (campo.type === 'checkbox') {
-          campo.classList.remove(errorClass);
-        }
-      });
-
-      return valido;
+      .galeria{
+        grid-template-columns:repeat(2, 1fr);
+        gap:10px;
+      }
+      .galeria-item.wide{
+        grid-column:span 1;
+        aspect-ratio:1/1;
+      }
     }
-
-    // ============================================
-    // EVENTO DE SUBMISSÃO DO FORMULÁRIO
-    // ============================================
-    const form = document.getElementById('formLead');
-    const btnSubmit = document.getElementById('btnSubmit');
-
-    if (form) {
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        if (!validarFormulario(form)) {
-          const primeiroErro = form.querySelector('.error');
-          if (primeiroErro) {
-            primeiroErro.focus();
-            primeiroErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-          return;
-        }
-
-        if (btnSubmit) {
-          btnSubmit.disabled = true;
-          btnSubmit.innerHTML = 'Enviando...';
-        }
-
-        const dados = new FormData(form);
-
-        utmFields.forEach(function(field) {
-          const el = document.getElementById(field);
-          if (el) el.value = utmData[field] || 'organico';
-        });
-
-        const qualificacao = qualificarLead(dados);
-
-        // ============================================
-        // DISPARA O EVENTO LEAD NO META PIXEL
-        // VALUE NUMÉRICO CONFORME ORIENTAÇÃO
-        // ============================================
-        if (typeof fbq !== 'undefined') {
-          fbq('track', 'Lead', {
-            value: 10.00,  // ✅ VALOR NUMÉRICO FIXO (conforme orientação)
-            currency: 'BRL',  // ✅ MOEDA CORRETA
-            content_name: 'Ideal + Liberdade 3',
-            content_category: 'Formulário Enviado',
-            content_type: 'product',
-            empreendimento: 'Ideal + Liberdade 3 - Ananindeua/PA',
-            
-            // PARÂMETROS PERSONALIZADOS PARA SEGMENTAÇÃO
-            // (NÃO AFETAM O VALUE PRINCIPAL)
-            lead_score: qualificacao.pontuacao,
-            lead_classificacao: qualificacao.classificacao,
-            lead_motivos: qualificacao.motivos,
-            faixa_renda: qualificacao.renda,
-            vinculo_trabalho: qualificacao.vinculo,
-            objetivo_lead: qualificacao.objetivo,
-            prazo_compra: qualificacao.prazo,
-            ...utmData
-          });
-        }
-
-        // ============================================
-        // MONTA MENSAGEM PARA WHATSAPP
-        // ============================================
-        const nome = dados.get('Nome') || '';
-        const cpf = dados.get('CPF') || '';
-        const telefone = dados.get('WhatsApp') || '';
-        const email = dados.get('E-mail') || '';
-
-        const msg = '🏠 *NOVO LEAD - Ideal + Liberdade 3*\n\n' +
-                    '👤 *Nome:* ' + nome + '\n' +
-                    '📋 *CPF:* ' + cpf + '\n' +
-                    '📱 *WhatsApp:* ' + telefone + '\n' +
-                    '📧 *E-mail:* ' + email + '\n\n' +
-                    '📊 *QUALIFICAÇÃO DO LEAD:*\n' +
-                    '🎯 Pontuação: ' + qualificacao.pontuacao + '/100\n' +
-                    '⭐ Classificação: ' + qualificacao.classificacao + '\n' +
-                    '📝 Motivos: ' + qualificacao.motivos + '\n\n' +
-                    '💰 *Renda:* ' + qualificacao.renda + '\n' +
-                    '💼 *Vínculo:* ' + qualificacao.vinculo + '\n' +
-                    '🎯 *Objetivo:* ' + qualificacao.objetivo + '\n' +
-                    '⏰ *Prazo:* ' + qualificacao.prazo + '\n\n' +
-                    '📊 *ORIGEM DO LEAD:*\n' +
-                    'Fonte: ' + (utmData.utm_source || 'organico') + '\n' +
-                    'Meio: ' + (utmData.utm_medium || 'organico') + '\n' +
-                    'Campanha: ' + (utmData.utm_campaign || 'organico') + '\n\n' +
-                    '🏢 *Empreendimento:* Ideal + Liberdade 3 - Ananindeua/PA';
-
-        // ============================================
-        // ENVIA PARA FORMSPREE
-        // ============================================
-        fetch(form.action, {
-          method: 'POST',
-          body: dados,
-          headers: { 'Accept': 'application/json' }
-        }).catch(function(err) {
-          console.log('Erro ao enviar para Formspree:', err);
-        });
-
-        // ============================================
-        // REDIRECIONA PARA WHATSAPP
-        // ============================================
-        const link = 'https://wa.me/5591981558577?text=' + encodeURIComponent(msg);
-        window.location.href = link;
-      });
-
-      form.querySelectorAll('input, select').forEach(function(el) {
-        el.addEventListener('input', function() {
-          this.classList.remove('error');
-        });
-        el.addEventListener('change', function() {
-          this.classList.remove('error');
-        });
-      });
+    @media (max-width:480px){
+      .grid-dif{grid-template-columns:1fr;}
+      .campo-row{grid-template-columns:1fr;}
+      .hero h1{font-size:28px;}
+      .dor h2{font-size:25px;}
+      .galeria{
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+      }
+      .galeria-item.wide{
+        grid-column:span 1;
+        aspect-ratio:1/1;
+      }
+      .renda-tag{flex-direction:column; align-items:flex-start; gap:6px; padding:14px;}
+      .renda-tag .num{font-size:22px;}
+      .form-wrap{padding:24px 18px 20px;}
+      .galeria-item .leg{
+        font-size:11px;
+        padding:14px 10px 8px;
+      }
     }
+    @media (max-width:360px){
+      .galeria{
+        grid-template-columns:1fr 1fr;
+        gap:6px;
+      }
+      .galeria-item .leg{
+        font-size:10px;
+        padding:10px 8px 6px;
+      }
+    }
+  </style>
+</head>
+<body>
 
-  })();
-</script>
+<header>
+  <div class="header-inner">
+    <div class="logo">Morar<span>+</span></div>
+    <a class="header-cta" href="#simular">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.2-.6.9-.8 1-.1.2-.3.2-.5.1-1.8-.9-3-1.6-4.2-3.6-.1-.2 0-.4.1-.5.2-.2.5-.5.6-.7.1-.2.1-.4 0-.5-.1-.2-.6-1.5-.9-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.2 0 1.3.9 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4 2.7 1.1 2.7.7 3.2.7.5 0 1.6-.6 1.8-1.3.2-.6.2-1.2.1-1.3-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.3 4.9 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 14.9 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
+      Falar agora
+    </a>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <span class="eyebrow">Lançamento em Ananindeua / PA</span>
+    <h1>Pare de pagar aluguel.<br>Comece a pagar o <em>seu</em> apartamento.</h1>
+    <p class="lead">O Ideal + Liberdade 3 entrou no programa Minha Casa Minha Vida. Se você tem renda a partir de R$ 1.800, já pode dar o primeiro passo para sair do aluguel de verdade.</p>
+    <div class="hero-badges">
+      <span class="hb">🏠 2 Dormitórios</span>
+      <span class="hb">🔒 Condomínio fechado</span>
+      <span class="hb">✅ Minha Casa Minha Vida</span>
+    </div>
+    <a class="hero-cta" href="#simular">Quero sair do aluguel →</a>
+    <p class="hero-sub">Simulação gratuita · Sem compromisso · Resposta em poucos minutos</p>
+  </div>
+  <div class="hero-photo">
+    <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_TORRE-DIURNA_FINAL-.jpg" alt="Fachada do Ideal + Liberdade 3" loading="lazy">
+    <div class="renda-tag">
+      <div class="num">R$ 1.800,00</div>
+      <div class="txt">é a renda mínima para começar a financiar pelo Minha Casa Minha Vida</div>
+    </div>
+  </div>
+</section>
+
+<section class="dor">
+  <div class="dor-inner">
+    <h2>Quanto você já pagou de aluguel até hoje?</h2>
+    <p>Esse dinheiro não volta. Ele não vira patrimônio, não vira herança, não vira <span class="destaque">a sua casa</span>.</p>
+    <p>O Minha Casa Minha Vida existe exatamente para isso: pegar quem está pagando aluguel e transformar essa parcela em algo que é seu, de verdade.</p>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="secao-head">
+    <span class="eyebrow">Por que o Ideal + Liberdade 3</span>
+    <h2>Tudo o que sua família precisa, dentro de um condomínio fechado</h2>
+  </div>
+  <div class="galeria">
+    <div class="galeria-item wide">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-GUARITA_FINAL-.jpg" alt="Guarita de segurança" loading="lazy">
+      <div class="leg">🔐 Guarita de segurança</div>
+    </div>
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-BICICLETARIO_FINAL-.jpg" alt="Bicicletário" loading="lazy">
+      <div class="leg">🚲 Bicicletário</div>
+    </div>
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_IDEAL-JASMIM_CHURRASQUEIRA_FINAL_2025-02-28-.jpg" alt="Churrasqueira" loading="lazy">
+      <div class="leg">🍖 Churrasqueira</div>
+    </div>
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-PISCINA_FINAL-.jpg" alt="Piscina" loading="lazy">
+      <div class="leg">🏊 Piscina</div>
+    </div>
+    <div class="galeria-item wide">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-PLAYGROUND_FINAL-.jpg" alt="Playground" loading="lazy">
+      <div class="leg">🛝 Playground</div>
+    </div>
+  </div>
+</section>
+
+<section class="secao lazer">
+  <div class="secao-head">
+    <span class="eyebrow">Lazer e bem-estar</span>
+    <h2>Conforto para todas as idades da casa</h2>
+  </div>
+  <div class="galeria">
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-FITNESS-EXTERNO_FINAL-.jpg" alt="Fitness ao ar livre" loading="lazy">
+      <div class="leg">🏋️ Fitness ao ar livre</div>
+    </div>
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-PETPLACE_FINAL-.jpg" alt="Pet place" loading="lazy">
+      <div class="leg">🐾 Pet place</div>
+    </div>
+    <div class="galeria-item">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-PRACA_FINAL-.jpg" alt="Praça" loading="lazy">
+      <div class="leg">🌳 Praça</div>
+    </div>
+    <div class="galeria-item wide">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_03-POMAR_FINAL-.jpg" alt="Pomar" loading="lazy">
+      <div class="leg">🌱 Pomar</div>
+    </div>
+    <div class="galeria-item wide">
+      <img src="https://vemmorarmais.com.br/wp-content/uploads/2026/04/CAPITAL_LIBERDADE_TORRE-NOTURNA_FINAL-.jpg" alt="Torre à noite" loading="lazy">
+      <div class="leg">✨ Vista noturna</div>
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="secao-head">
+    <span class="eyebrow">Onde fica</span>
+    <h2>Águas Brancas, Ananindeua — perto de tudo o que você precisa</h2>
+  </div>
+  <div class="local-grid">
+    <div class="local-info">
+      <p>O Ideal + Liberdade 3 está localizado próximo às principais vias de acesso de Ananindeua, facilitando o dia a dia da sua família.</p>
+      <div class="local-addr">
+        <strong>Ideal + Liberdade 3</strong>
+        Estrada do Aura, Lote B1, S/N — Águas Brancas, Ananindeua/PA
+      </div>
+      <a href="https://www.google.com/maps?q=Estrada+do+Aura,+Lote+B1,+%C3%81guas+Brancas,+Ananindeua,+PA" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-size:13px; font-weight:600; color:var(--terracota-escuro); text-decoration:none;">
+        📍 Abrir no Google Maps →
+      </a>
+    </div>
+    <div class="mapa-frame">
+      <iframe src="https://www.google.com/maps?q=Estrada+do+Aura,+Lote+B1,+%C3%81guas+Brancas,+Ananindeua,+PA&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa Ideal + Liberdade 3"></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="form-section" id="simular">
+  <div class="form-wrap">
+    <span class="eyebrow">Avaliação de perfil</span>
+    <h2>Veja se você já pode sair do aluguel</h2>
+    <p>Preencha os dados abaixo. Guido entra em contato pelo WhatsApp para confirmar sua simulação do Minha Casa Minha Vida.</p>
+
+    <form id="formLead" action="https://formspree.io/f/xdavdjbz" method="POST" novalidate>
+      <div class="campo">
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" name="Nome" placeholder="Seu nome completo" required aria-required="true">
+      </div>
+
+      <div class="campo">
+        <label for="cpf">CPF</label>
+        <input type="text" id="cpf" name="CPF" placeholder="000.000.000-00" required aria-required="true" maxlength="14">
+      </div>
+
+      <div class="campo-row">
+        <div class="campo">
+          <label for="telefone">WhatsApp</label>
+          <input type="tel" id="telefone" name="WhatsApp" placeholder="(91) 9____-____" required aria-required="true">
+        </div>
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="E-mail" placeholder="seu@email.com" required aria-required="true">
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="renda">Qual é a sua renda mensal aproximada?</label>
+        <select id="renda" name="Faixa de renda" required aria-required="true">
+          <option value="" disabled selected>Selecione uma opção</option>
+          <option value="Até R$ 1.800">Até R$ 1.800</option>
+          <option value="R$ 1.800 a R$ 4.400">R$ 1.800 a R$ 4.400</option>
+          <option value="R$ 4.400 a R$ 8.000">R$ 4.400 a R$ 8.000</option>
+          <option value="Acima de R$ 8.000">Acima de R$ 8.000</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="vinculo">Qual é o seu vínculo de trabalho atual?</label>
+        <select id="vinculo" name="Vínculo de trabalho" required aria-required="true">
+          <option value="" disabled selected>Selecione uma opção</option>
+          <option value="CLT (carteira assinada)">CLT (carteira assinada)</option>
+          <option value="Servidor público">Servidor público</option>
+          <option value="MEI">MEI</option>
+          <option value="Autônomo com comprovante">Autônomo com comprovante</option>
+          <option value="Sem renda formal">Sem renda formal</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="objetivo">O que você está buscando?</label>
+        <select id="objetivo" name="Objetivo" required aria-required="true">
+          <option value="" disabled selected>Selecione uma opção</option>
+          <option value="Sair do aluguel">Sair do aluguel</option>
+          <option value="Comprar meu primeiro imóvel">Comprar meu primeiro imóvel</option>
+          <option value="Investir em imóvel">Investir em imóvel</option>
+          <option value="Alugar um imóvel">Alugar um imóvel</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="prazo">Quando você pretende comprar?</label>
+        <select id="prazo" name="Prazo" required aria-required="true">
+          <option value="" disabled selected>Selecione uma opção</option>
+          <option value="Assim que possível">Assim que possível</option>
+          <option value="Nos próximos 3 meses">Nos próximos 3 meses</option>
+          <option value="Em 6 meses">Em 6 meses</option>
+          <option value="Ainda estou pesquisando">Ainda estou pesquisando</option>
+        </select>
+      </div>
+
+      <!-- Campos ocultos com dados UTM -->
+      <input type="hidden" name="utm_source" id="utm_source" value="">
+      <input type="hidden" name="utm_medium" id="utm_medium" value="">
+      <input type="hidden" name="utm_campaign" id="utm_campaign" value="">
+      <input type="hidden" name="utm_content" id="utm_content" value="">
+      <input type="hidden" name="utm_term" id="utm_term" value="">
+      <input type="hidden" name="Empreendimento" value="Ideal + Liberdade 3 - Ananindeua/PA">
+
+      <div class="termos">
+        <input type="checkbox" id="termos" required aria-required="true">
+        <label for="termos">Declaro que aceito receber contato do corretor responsável sobre este empreendimento e concordo com a Política de Privacidade.</label>
+      </div>
+
+      <button class="btn-en
