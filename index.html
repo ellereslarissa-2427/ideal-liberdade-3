@@ -29,6 +29,36 @@ fbq('track', 'PageView');
 <img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=135391155007456&ev=PageView&noscript=1"/>
 </noscript>
+
+<!-- Captura de Parâmetros UTM -->
+<script>
+// Função para capturar parâmetros da URL
+function pegarUTM(nome) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(nome) || 'organico';
+}
+
+// Armazena todos os parâmetros UTM
+const utmData = {
+  utm_source: pegarUTM('utm_source'),
+  utm_medium: pegarUTM('utm_medium'),
+  utm_campaign: pegarUTM('utm_campaign'),
+  utm_content: pegarUTM('utm_content'),
+  utm_term: pegarUTM('utm_term')
+};
+
+// Salva no localStorage para usar depois
+localStorage.setItem('utm_data', JSON.stringify(utmData));
+
+// Dispara evento ViewContent com dados UTM
+fbq('track', 'ViewContent', {
+  content_name: 'Ideal + Liberdade 3',
+  content_category: 'Lançamento Imobiliário',
+  content_type: 'product',
+  ...utmData
+});
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ideal + Liberdade 3 | Saia do aluguel com o Minha Casa Minha Vida</title>
@@ -489,6 +519,12 @@ src="https://www.facebook.com/tr?id=135391155007456&ev=PageView&noscript=1"/>
         </select>
       </div>
 
+      <!-- Campos ocultos com dados UTM -->
+      <input type="hidden" name="utm_source" id="utm_source" value="">
+      <input type="hidden" name="utm_medium" id="utm_medium" value="">
+      <input type="hidden" name="utm_campaign" id="utm_campaign" value="">
+      <input type="hidden" name="utm_content" id="utm_content" value="">
+      <input type="hidden" name="utm_term" id="utm_term" value="">
       <input type="hidden" name="Empreendimento" value="Ideal + Liberdade 3 - Ananindeua/PA">
 
       <div class="termos">
@@ -516,5 +552,84 @@ src="https://www.facebook.com/tr?id=135391155007456&ev=PageView&noscript=1"/>
 </a>
 
 <script>
+// Preenche campos ocultos com dados UTM
+document.getElementById('utm_source').value = utmData.utm_source;
+document.getElementById('utm_medium').value = utmData.utm_medium;
+document.getElementById('utm_campaign').value = utmData.utm_campaign;
+document.getElementById('utm_content').value = utmData.utm_content;
+document.getElementById('utm_term').value = utmData.utm_term;
+
 // Função para rastrear clique no WhatsApp com Meta Pixel
-function trackWhatsApp
+function trackWhatsApp() {
+  fbq('track', 'Contact', {
+    content_name: 'WhatsApp Float',
+    content_category: 'Contato Direto',
+    ...utmData
+  });
+}
+
+// Função principal do formulário
+document.getElementById('formLead').addEventListener('submit', function(e){
+  e.preventDefault();
+  const form = e.target;
+  const dados = new FormData(form);
+
+  // Atualiza campos UTM antes de enviar
+  document.getElementById('utm_source').value = utmData.utm_source;
+  document.getElementById('utm_medium').value = utmData.utm_medium;
+  document.getElementById('utm_campaign').value = utmData.utm_campaign;
+  document.getElementById('utm_content').value = utmData.utm_content;
+  document.getElementById('utm_term').value = utmData.utm_term;
+
+  // Dispara evento Lead no Pixel com dados UTM
+  fbq('track', 'Lead', {
+    content_name: 'Formulário Enviado',
+    content_category: 'Lead Qualificado',
+    value: 0.00,
+    currency: 'BRL',
+    empreendimento: 'Ideal + Liberdade 3',
+    ...utmData
+  });
+
+  // Captura dados do formulário
+  const nome = dados.get('Nome') || '';
+  const cpf = dados.get('CPF') || '';
+  const telefone = dados.get('WhatsApp') || '';
+  const email = dados.get('E-mail') || '';
+  const renda = dados.get('Faixa de renda') || '';
+  const vinculo = dados.get('Vínculo de trabalho') || '';
+  const objetivo = dados.get('Objetivo') || '';
+  const prazo = dados.get('Prazo') || '';
+
+  // Monta mensagem para WhatsApp com origem do lead
+  const msg = `🏠 *NOVO LEAD - Ideal + Liberdade 3*\n\n` +
+              `👤 *Nome:* ${nome}\n` +
+              `📋 *CPF:* ${cpf}\n` +
+              `📱 *WhatsApp:* ${telefone}\n` +
+              `📧 *E-mail:* ${email}\n` +
+              `💰 *Renda:* ${renda}\n` +
+              `💼 *Vínculo:* ${vinculo}\n` +
+              `🎯 *Objetivo:* ${objetivo}\n` +
+              `⏰ *Prazo:* ${prazo}\n\n` +
+              `📊 *ORIGEM DO LEAD:*\n` +
+              `Fonte: ${utmData.utm_source}\n` +
+              `Meio: ${utmData.utm_medium}\n` +
+              `Campanha: ${utmData.utm_campaign}\n` +
+              `Conteúdo: ${utmData.utm_content}\n\n` +
+              `🏢 *Empreendimento:* Ideal + Liberdade 3 - Ananindeua/PA`;
+
+  // Envia para o Formspree (em segundo plano)
+  fetch(form.action, {
+    method: 'POST',
+    body: dados,
+    headers: { 'Accept': 'application/json' }
+  });
+
+  // Redireciona para o WhatsApp do corretor
+  const link = `https://wa.me/5591981558577?text=${encodeURIComponent(msg)}`;
+  window.location.href = link;
+});
+</script>
+
+</body>
+</html>
