@@ -124,11 +124,44 @@
       padding:16px 24px;
       display:flex; align-items:center; justify-content:space-between;
     }
-    .logo{
-      font-family:'Fraunces',serif; font-weight:600; font-size:19px;
-      color:var(--verde-escuro); letter-spacing:-0.01em;
+
+    /* ============================================ */
+    /* LOGO E MARCA DO EMPREENDIMENTO */
+    /* ============================================ */
+    .logo-grupo {
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
-    .logo span{color:var(--terracota);}
+    .logo-empreendimento {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size:20px;
+      color:var(--verde-escuro);
+      letter-spacing:-0.02em;
+      line-height:1.1;
+    }
+    .logo-empreendimento .destaque {
+      color:var(--terracota);
+    }
+    .logo-morar {
+      font-family:'Inter',sans-serif;
+      font-weight:700;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      color:var(--verde-medio);
+      background:var(--bege2);
+      padding:4px 10px;
+      border-radius:20px;
+      border:1px solid var(--linha);
+    }
+    .separador-logo {
+      width:1px;
+      height:28px;
+      background:var(--linha);
+    }
+
     .header-cta{
       background:#25D366; color:#fff; border:none;
       padding:10px 18px; border-radius:30px;
@@ -330,17 +363,74 @@
     .termos input{width:auto; margin-top:3px; cursor:pointer;}
     .termos label{font-size:12px; color:var(--tinta-suave); font-weight:400; cursor:pointer;}
 
+    /* ============================================ */
+    /* BOTÃO DE ENVIO CORRIGIDO E MELHORADO */
+    /* ============================================ */
     .btn-enviar{
-      width:100%; background:var(--terracota); color:#fff; border:none;
-      padding:15px; border-radius:9px; font-size:15.5px; font-weight:600;
-      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;
-      transition: background 0.2s, transform 0.1s;
+      width:100%; 
+      background:var(--terracota); 
+      color:#fff; 
+      border:none;
+      padding:15px; 
+      border-radius:9px; 
+      font-size:15.5px; 
+      font-weight:600;
+      cursor:pointer; 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      gap:8px;
+      transition: background 0.2s, transform 0.1s, opacity 0.2s;
+      position:relative;
     }
-    .btn-enviar:hover{background:var(--terracota-escuro);}
-    .btn-enviar:active{transform:scale(0.98);}
+    .btn-enviar:hover:not(:disabled){
+      background:var(--terracota-escuro);
+    }
+    .btn-enviar:active:not(:disabled){
+      transform:scale(0.98);
+    }
     .btn-enviar:disabled{
-      opacity:0.7; cursor:not-allowed; transform:none;
+      opacity:0.7; 
+      cursor:not-allowed; 
+      transform:none;
     }
+    
+    /* Spinner de carregamento */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Mensagem de sucesso/erro */
+    .form-message {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      display: none;
+    }
+    .form-message.success {
+      display: block;
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .form-message.error {
+      display: block;
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
     .form-foot{font-size:11.5px; color:var(--tinta-suave); text-align:center; margin-top:14px;}
 
     /* FOOTER */
@@ -403,6 +493,16 @@
         font-size:11px;
         padding:14px 10px 8px;
       }
+      .logo-empreendimento {
+        font-size:16px;
+      }
+      .logo-morar {
+        font-size:9px;
+        padding:2px 8px;
+      }
+      .separador-logo {
+        height:20px;
+      }
     }
     @media (max-width:360px){
       .galeria{
@@ -420,7 +520,23 @@
 
 <header>
   <div class="header-inner">
-    <div class="logo">Morar<span>+</span></div>
+    <!-- ============================================ -->
+    <!-- LOGO E MARCA DO EMPREENDIMENTO -->
+    <!-- ============================================ -->
+    <div class="logo-grupo">
+      <div>
+        <div class="logo-empreendimento">
+          Ideal + <span class="destaque">Liberdade 3</span>
+        </div>
+        <div class="logo-morar">🏢 Morar Mais</div>
+      </div>
+      <div class="separador-logo"></div>
+      <div style="font-size:11px; color:var(--tinta-suave); line-height:1.3;">
+        <strong style="color:var(--verde-escuro);">Águas Brancas</strong><br>
+        Ananindeua / PA
+      </div>
+    </div>
+
     <a class="header-cta" href="#simular">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.2-.6.9-.8 1-.1.2-.3.2-.5.1-1.8-.9-3-1.6-4.2-3.6-.1-.2 0-.4.1-.5.2-.2.5-.5.6-.7.1-.2.1-.4 0-.5-.1-.2-.6-1.5-.9-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.2 0 1.3.9 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4 2.7 1.1 2.7.7 3.2.7.5 0 1.6-.6 1.8-1.3.2-.6.2-1.2.1-1.3-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.3 4.9 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 14.9 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
       Falar agora
@@ -538,6 +654,9 @@
   </div>
 </section>
 
+<!-- ============================================ -->
+<!-- FORMULÁRIO COM BOTÃO CORRIGIDO -->
+<!-- ============================================ -->
 <section class="form-section" id="simular">
   <div class="form-wrap">
     <span class="eyebrow">Avaliação de perfil</span>
@@ -624,4 +743,267 @@
         <label for="termos">Declaro que aceito receber contato do corretor responsável sobre este empreendimento e concordo com a Política de Privacidade.</label>
       </div>
 
-      <button class="btn-en
+      <!-- ============================================ -->
+      <!-- BOTÃO DE ENVIO CORRIGIDO E COMPLETO -->
+      <!-- ============================================ -->
+      <button class="btn-enviar" type="submit" id="btnEnviar">
+        <span id="textoBtn">📩 Enviar simulação</span>
+        <span id="spinnerBtn" style="display:none;">
+          <span class="spinner"></span> Enviando...
+        </span>
+      </button>
+
+      <!-- Mensagem de retorno -->
+      <div id="formMessage" class="form-message"></div>
+
+      <p class="form-foot">Seus dados estão seguros. Não compartilhamos suas informações.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- RODAPÉ COM MARCA -->
+<!-- ============================================ -->
+<footer>
+  <div style="max-width:1120px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:8px;">
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center;">
+      <span style="font-family:'Fraunces',serif; font-weight:700; font-size:18px; color:var(--verde-escuro);">
+        Ideal + <span style="color:var(--terracota);">Liberdade 3</span>
+      </span>
+      <span style="color:var(--linha);">|</span>
+      <span style="font-weight:600; font-size:13px; color:var(--verde-medio);">🏢 Morar Mais</span>
+      <span style="color:var(--linha);">|</span>
+      <span style="font-size:13px; color:var(--tinta-suave);">Águas Brancas · Ananindeua/PA</span>
+    </div>
+    <p style="font-size:12.5px; color:var(--tinta-suave); margin:0;">
+      © 2026 Morar Mais · Todos os direitos reservados
+    </p>
+    <p style="font-size:11px; color:#888; margin:0;">
+      Preços e condições sujeitos a alterações. Consulte o corretor.
+    </p>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a class="wpp-float" href="https://wa.me/5591999999999?text=Olá! Gostaria de saber mais sobre o Ideal + Liberdade 3" target="_blank" rel="noopener noreferrer" aria-label="Fale conosco no WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.2-.6.9-.8 1-.1.2-.3.2-.5.1-1.8-.9-3-1.6-4.2-3.6-.1-.2 0-.4.1-.5.2-.2.5-.5.6-.7.1-.2.1-.4 0-.5-.1-.2-.6-1.5-.9-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.2 0 1.3.9 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4 2.7 1.1 2.7.7 3.2.7.5 0 1.6-.6 1.8-1.3.2-.6.2-1.2.1-1.3-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.3 4.9 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 14.9 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
+</a>
+
+<!-- ============================================ -->
+<!-- SCRIPT DE VALIDAÇÃO E ENVIO DO FORMULÁRIO -->
+<!-- ============================================ -->
+<script>
+  (function() {
+    'use strict';
+
+    const form = document.getElementById('formLead');
+    const btnEnviar = document.getElementById('btnEnviar');
+    const textoBtn = document.getElementById('textoBtn');
+    const spinnerBtn = document.getElementById('spinnerBtn');
+    const formMessage = document.getElementById('formMessage');
+    const campos = form.querySelectorAll('input, select');
+
+    // === 1. Preencher campos UTM ===
+    const utmData = JSON.parse(localStorage.getItem('utm_data') || '{}');
+    document.getElementById('utm_source').value = utmData.utm_source || 'organico';
+    document.getElementById('utm_medium').value = utmData.utm_medium || 'organico';
+    document.getElementById('utm_campaign').value = utmData.utm_campaign || 'organico';
+    document.getElementById('utm_content').value = utmData.utm_content || 'organico';
+    document.getElementById('utm_term').value = utmData.utm_term || 'organico';
+
+    // === 2. Máscara para CPF ===
+    document.getElementById('cpf').addEventListener('input', function(e) {
+      let valor = this.value.replace(/\D/g, '');
+      if (valor.length > 11) valor = valor.slice(0, 11);
+      
+      if (valor.length <= 3) {
+        this.value = valor;
+      } else if (valor.length <= 6) {
+        this.value = valor.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+      } else if (valor.length <= 9) {
+        this.value = valor.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+      } else {
+        this.value = valor.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+      }
+    });
+
+    // === 3. Máscara para telefone ===
+    document.getElementById('telefone').addEventListener('input', function(e) {
+      let valor = this.value.replace(/\D/g, '');
+      if (valor.length > 11) valor = valor.slice(0, 11);
+      
+      if (valor.length <= 2) {
+        this.value = valor;
+      } else if (valor.length <= 7) {
+        this.value = valor.replace(/(\d{2})(\d{1,5})/, '($1) $2');
+      } else {
+        this.value = valor.replace(/(\d{2})(\d{5})(\d{1,4})/, '($1) $2-$3');
+      }
+    });
+
+    // === 4. Validação em tempo real ===
+    function validateField(field) {
+      if (field.hasAttribute('required')) {
+        if (field.type === 'checkbox') {
+          if (!field.checked) {
+            field.classList.add('error');
+            return false;
+          }
+          field.classList.remove('error');
+          return true;
+        }
+        
+        if (field.value.trim() === '' || field.value === '' || field.value === null) {
+          field.classList.add('error');
+          return false;
+        }
+        
+        // Validação específica para email
+        if (field.type === 'email' && field.value.trim() !== '') {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(field.value.trim())) {
+            field.classList.add('error');
+            return false;
+          }
+        }
+        
+        field.classList.remove('error');
+        return true;
+      }
+      return true;
+    }
+
+    campos.forEach(campo => {
+      campo.addEventListener('blur', function() {
+        validateField(this);
+      });
+      campo.addEventListener('change', function() {
+        if (this.type !== 'checkbox') {
+          validateField(this);
+        }
+      });
+      campo.addEventListener('input', function() {
+        if (this.type === 'checkbox') {
+          validateField(this);
+        } else if (this.classList.contains('error') && this.value.trim() !== '') {
+          this.classList.remove('error');
+        }
+      });
+    });
+
+    // === 5. Submit com feedback visual ===
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Validar todos os campos
+      let formValido = true;
+      campos.forEach(campo => {
+        if (!validateField(campo)) {
+          formValido = false;
+        }
+      });
+
+      // Validar checkbox separadamente
+      const termos = document.getElementById('termos');
+      if (!termos.checked) {
+        termos.classList.add('error');
+        formValido = false;
+      } else {
+        termos.classList.remove('error');
+      }
+
+      if (!formValido) {
+        formMessage.className = 'form-message error';
+        formMessage.textContent = '⚠️ Por favor, preencha todos os campos obrigatórios corretamente.';
+        formMessage.style.display = 'block';
+        
+        // Scroll para o primeiro campo com erro
+        const primeiroErro = form.querySelector('.error');
+        if (primeiroErro) {
+          primeiroErro.focus();
+        }
+        return;
+      }
+
+      // === Estado de carregamento ===
+      btnEnviar.disabled = true;
+      textoBtn.style.display = 'none';
+      spinnerBtn.style.display = 'flex';
+      formMessage.style.display = 'none';
+
+      // === Rastrear evento de envio no Facebook ===
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'Lead', {
+          content_name: 'Ideal + Liberdade 3',
+          content_category: 'Lançamento Imobiliário'
+        });
+      }
+
+      try {
+        // === Enviar para Formspree ===
+        const formData = new FormData(this);
+        const response = await fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          // Sucesso
+          formMessage.className = 'form-message success';
+          formMessage.textContent = '✅ Dados enviados com sucesso! Guido entrará em contato pelo WhatsApp em breve.';
+          formMessage.style.display = 'block';
+          
+          // Resetar o formulário
+          this.reset();
+          
+          // Limpar classes de erro
+          campos.forEach(c => c.classList.remove('error'));
+          
+          // Rastrear conversão
+          if (typeof fbq !== 'undefined') {
+            fbq('track', 'CompleteRegistration', {
+              content_name: 'Ideal + Liberdade 3'
+            });
+          }
+        } else {
+          throw new Error('Erro no envio');
+        }
+      } catch (error) {
+        // Erro
+        formMessage.className = 'form-message error';
+        formMessage.textContent = '❌ Ocorreu um erro ao enviar. Por favor, tente novamente ou fale diretamente pelo WhatsApp.';
+        formMessage.style.display = 'block';
+        console.error('Erro no envio:', error);
+      } finally {
+        // Restaurar botão
+        btnEnviar.disabled = false;
+        textoBtn.style.display = 'flex';
+        spinnerBtn.style.display = 'none';
+      }
+    });
+
+    // === 6. Máscara automática para CPF ao colar ===
+    document.getElementById('cpf').addEventListener('paste', function(e) {
+      setTimeout(() => {
+        const valor = this.value.replace(/\D/g, '');
+        if (valor.length <= 3) {
+          this.value = valor;
+        } else if (valor.length <= 6) {
+          this.value = valor.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+        } else if (valor.length <= 9) {
+          this.value = valor.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+        } else {
+          this.value = valor.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+        }
+      }, 50);
+    });
+
+    console.log('✅ Formulário pronto e funcionando!');
+  })();
+</script>
+
+</body>
+</html>
